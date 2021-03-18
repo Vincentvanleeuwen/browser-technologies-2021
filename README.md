@@ -26,6 +26,7 @@ In this project I will be making use of the following important packages.
 - Firebase
 - Express Handlebars
 
+## Checklist 
 
 - [x] Create a poll list
 - [x] Dynamic poll routes
