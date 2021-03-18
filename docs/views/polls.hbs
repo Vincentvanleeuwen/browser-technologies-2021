@@ -1,5 +1,54 @@
 <section class="container">
   <h2>{{ pollTitle }}</h2>
 
-  <p> You haven't created a poll yet. <a href="/polls/{{pollTitle}}/add-poll"> Create one </a></p>
+  {{#each polls}}
+
+    <section class="poll-list">
+      <section class="open">
+        <section class="tools">
+          <section class="tool">
+
+            {{#if pollStatus}}
+              <span class="material-icons">
+                check_circle
+              </span>
+              <a class="status">Deactivate Poll</a>
+            {{else}}
+              <span class="material-icons">
+             check_circle_outline
+            </span>
+              <a class="status">Activate Poll</a>
+            {{/if}}
+
+          </section>
+
+          <section class="tool">
+            <span class="material-icons">
+              delete_forever
+            </span>
+            <a href="/polls/{{pollTitle}}/{{index}}">Delete Poll</a>
+          </section>
+
+          <section class="tool">
+            <span class="material-icons">
+              create
+            </span>
+            <a href="/polls/{{pollTitle}}/{{index}}">Edit Poll</a>
+          </section>
+        </section>
+        <h3>{{pollQuestion}}</h3>
+
+
+
+      </section>
+
+      <section class="closed">
+        {{#each pollAnswer.values}}
+          <p>{{this}}</p>
+        {{/each}}
+      </section>
+    </section>
+
+  {{/each}}
+  <a href="/polls/{{pollTitle}}/add-poll"> Create one </a>
 </section>

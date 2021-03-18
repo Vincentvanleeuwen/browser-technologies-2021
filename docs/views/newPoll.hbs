@@ -2,10 +2,10 @@
   <h2>{{ pollTitle }}</h2>
 
 
-  <form action="/{{pollTitle}}/add-poll" method="post">
-    <label for="question">
+  <form action="/polls/{{pollTitle}}/add-poll" method="post">
+    <label for="pollQuestion">
       Question
-      <input type="text" name="question">
+      <input type="text" name="pollQuestion">
     </label>
     <label for="answer">
       <select name="answer" id="answer">
@@ -17,11 +17,16 @@
       </select>
     </label>
 
-    <label for="a-closed">
-      A <input type="text" name="a-closed">
+    <label for="answerA">
+      A <input type="text" name="answerA">
     </label>
-    <label for="b-closed">
-      B <input type="text" name="b-closed">
+    <label for="answerB">
+      B <input type="text" name="answerB">
+    </label>
+    <a class="add-answer">Add Answer</a>
+    <label for="pollStatus">
+      Pol status
+      <input type="checkbox" name="pollStatus">
     </label>
 
     <input type="submit" value="Add Poll">

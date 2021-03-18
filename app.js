@@ -34,6 +34,7 @@ firebase.initializeApp(firebaseConfig);
 const home = require('./docs/routes/home');
 const addPolls = require('./docs/routes/addPolls');
 const polls = require('./docs/routes/polls');
+const error = require('./docs/routes/error');
 // const callback = require('./docs/routes/callback');
 // const create = require('./docs/routes/create');
 
@@ -54,8 +55,9 @@ app.use(express.static(__dirname + '/public'))
   .use('/', home)
   .use('/create-poll', addPolls)
   .use('/polls', polls)
-  // .use('/callback', callback)
-  // .use('/create', create)
+  // Always keep last
+  .use('*', error)
+
 
 console.log(`Listening on ${port}`);
 app.listen(port);

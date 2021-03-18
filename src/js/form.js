@@ -8,3 +8,4 @@ a.addEventListener('change', () => {
 
   console.log(index)
 })
+
