@@ -28,3 +28,40 @@
   width: 3.5em;
   font-size: .8em;
 }
+
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 40vw;
+  right: 40vw;
+}
+nav .tool {
+  flex-direction: column;
+  width: max-content;
+}
+nav .tool a {
+  width: initial;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--dark-color);
+  font-weight: bold;
+  padding-bottom: 1em;
+}
+nav .tool .material-icons {
+  color: var(--light-color);
+  font-size: 4em;
+}
+nav .background-addition {
+  position: absolute;
+  border-radius: 100%;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -1em);
+  z-index: -1;
+  width: 55vw;
+  height: 55vw;
+  background-color: var(--primary-color);
+}
