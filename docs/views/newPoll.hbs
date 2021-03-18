@@ -1,0 +1,35 @@
+<section class="container">
+  <h2>{{ pollTitle }}</h2>
+
+
+  <form action="/{{pollTitle}}/add-poll" method="post">
+    <label for="question">
+      Question
+      <input type="text" name="question">
+    </label>
+    <label for="answer">
+      Answer
+      <select name="answer" id="answer">
+        <option value="closed">Closed Answer</option>
+        <option value="open-text">Open Answer (text)</option>
+        <option value="open-number">Open Answer (number)</option>
+        <option value="slider">Slider Answer</option>
+
+      </select>
+    </label>
+
+    <label for="a-closed">
+      A <input type="text" name="a-closed">
+    </label>
+    <label for="b-closed">
+      B <input type="text" name="b-closed">
+    </label>
+
+    <label for="slider">
+      <input type="range" min="1" max="100" value="50" class="slider" name="slider" id="myRange">
+    </label>
+
+
+    <input type="submit" value="Add Poll">
+  </form>
+</section>

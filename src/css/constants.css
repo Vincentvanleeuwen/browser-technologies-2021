@@ -1,0 +1,12 @@
+:root {
+  --primary-color: #e5acac;
+  --cta-color: #FE9D65;
+  --light-color: #FFFFFF;
+  --dark-color: #342F2F;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
