@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "npm run build:css && npm run build:js && nodemon app.js",
+    "start": "npm run build:css && npm run build:js && nodemon app.js",
     "prebuild:css": "rimraf \"public/css\"",
     "prebuild:js": "rimraf \"public/js\"",
     "build:css": "node ./build_scripts/build-css.js",
