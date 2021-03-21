@@ -11,8 +11,6 @@ if(process.env.NODE_ENV !== 'production'){
 }
 
 const port = process.env.PORT || 3000;
-
-
 const app = express();
 
 const firebaseConfig = {
@@ -45,6 +43,7 @@ app.set('views', __dirname + '/docs/views')
 app.engine('hbs', handlebars({
   extname: 'hbs',
   defaultLayout: 'main',
+  helpers: require('./docs/config/handlebarsHelpers')
 }))
 
 app.use(express.static(__dirname + '/public'))

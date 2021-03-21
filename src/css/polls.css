@@ -65,3 +65,13 @@ nav .background-addition {
   height: 55vw;
   background-color: var(--primary-color);
 }
+
+/*Add polls*/
+.multiple {
+  display: flex;
+  flex-direction: column;
+}
+
+.tool {
+  width: max-content;
+}

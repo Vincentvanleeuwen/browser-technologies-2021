@@ -1,0 +1,40 @@
+<section class="container">
+  <h2>{{ pollTitle }}</h2>
+
+
+  {{#each polls}}
+    {{#if pollStatus}}
+      <form action="/polls/{{ pollTitle }}/active" method="post">
+        <p> {{pollQuestion}}</p>
+
+        {{#switch pollAnswer.type}}
+          {{#case 'multiple'}}
+            {{#each pollAnswer.values}}
+              <button> {{this}}</button>
+            {{/each}}
+            <input type="submit">
+          {{/case}}
+          {{#case 'open-text'}}
+            <label for="{{pollAnswer.values}}">
+              <input type="text" name="{{pollAnswer.values}}"/>
+            </label>
+            <input type="submit">
+          {{/case}}
+          {{#case 'open-number'}}
+            <label for="{{pollAnswer.values}}">
+              <input type="number" name="{{pollAnswer.values}}"/>
+            </label>
+            <input type="submit">
+          {{/case}}
+
+        {{/switch}}
+      </form>
+
+
+
+
+    {{/if}}
+
+  {{/each}}
+
+</section>
