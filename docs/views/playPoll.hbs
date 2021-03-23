@@ -3,36 +3,39 @@
 
 
   {{#each polls}}
+
     {{#if pollStatus}}
-      <form action="/polls/{{ pollTitle }}/active" method="post">
+
+      <form action="/polls/{{ ../pollTitle }}/{{@key}}/submit" method="post" class="play-form">
+
         <p> {{pollQuestion}}</p>
 
         {{#switch pollAnswer.type}}
+
           {{#case 'multiple'}}
-            {{#each pollAnswer.values}}
-              <button> {{this}}</button>
+            {{#each ../pollAnswer.values}}
+              <label for="{{@key}}">
+                <input type="submit" value="{{this}}" name="{{@key}}">
+              </label>
             {{/each}}
-            <input type="submit">
           {{/case}}
+
           {{#case 'open-text'}}
-            <label for="{{pollAnswer.values}}">
-              <input type="text" name="{{pollAnswer.values}}"/>
+            <label for="open-answer">
+              <input type="text" name="open-answer"/>
             </label>
             <input type="submit">
           {{/case}}
+
           {{#case 'open-number'}}
-            <label for="{{pollAnswer.values}}">
-              <input type="number" name="{{pollAnswer.values}}"/>
+            <label for="open-answer-number">
+              <input type="number" name="open-answer-number"/>
             </label>
             <input type="submit">
           {{/case}}
 
         {{/switch}}
       </form>
-
-
-
-
     {{/if}}
 
   {{/each}}

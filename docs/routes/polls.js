@@ -19,8 +19,7 @@ globalRef.on('value', function (snap) {
       const pollRef = firebase.database().ref('polls/').child(`${poll}`)
 
       pollRef.on('value', (snap) => {
-        console.log('get', snap.val());
-
+        // console.log('get', snap.val());
         res.render('polls', {
           layout: 'main',
           pollTitle: poll,
@@ -43,6 +42,8 @@ globalRef.on('value', function (snap) {
       console.log('Post body', req.body)
 
       let values;
+      let valuesAmount;
+      let valuesArray = [];
 
       if(req.body.answer === 'open-text') {
         values = count
@@ -50,12 +51,17 @@ globalRef.on('value', function (snap) {
         values = count
       } else {
         values = [
-          'A: ' + req.body.answerA,
-          'B: ' + req.body.answerB,
-          req.body.answerC ? 'C: ' + req.body.answerC : null,
-          req.body.answerD ? 'D: ' + req.body.answerD : null,
-          req.body.answerE ? 'E: ' + req.body.answerE : null
+          req.body.answerA,
+          req.body.answerB,
+          req.body.answerC ? req.body.answerC : null,
+          req.body.answerD ? req.body.answerD : null,
+          req.body.answerE ? req.body.answerE : null
         ]
+        valuesAmount = values.filter(value => value !== null).length
+
+        for(i = 0; i < valuesAmount; i++) {
+          valuesArray.push(i)
+        }
       }
 
       const pollRef = firebase.database().ref('polls/').child(`${poll}`)
@@ -68,7 +74,8 @@ globalRef.on('value', function (snap) {
             values: values
           },
           pollQuestion: req.body.pollQuestion,
-          pollStatus: req.body.pollStatus === 'on'
+          pollStatus: req.body.pollStatus === 'on',
+          pollResults: valuesArray
         })
       }
 
@@ -76,7 +83,6 @@ globalRef.on('value', function (snap) {
 
       pollRef.on('value', (snap) => {
         console.log('render polls', snap.val());
-
         res.render('polls', {
           layout: 'main',
           pollTitle: poll,
@@ -85,11 +91,47 @@ globalRef.on('value', function (snap) {
       })
 
     })
+    router.get(`/${poll}/activate-poll/:key`, (req, res) => {
+      const pollRef = firebase.database().ref('polls/').child(`${poll}`)
+      const pollChildRef = pollRef.child(`${req.params.key}`)
+      let pollStatus
+
+      pollChildRef.on('value', (snap) => {
+        pollStatus = snap.val().pollStatus
+      })
+      pollChildRef.update({
+        'pollStatus': !pollStatus
+      })
+      pollRef.on('value', (snap) => {
+
+        res.render('polls', {
+          layout: 'main',
+          pollTitle: poll,
+          polls: snap.val()
+        });
+      })
+    })
+    router.get(`/${poll}/delete-poll/:key`, (req, res) => {
+      console.log()
+      const pollRef = firebase.database().ref('polls/').child(`${poll}`)
+      pollRef.child(`${req.params.key}`).remove();
+
+
+      pollRef.on('value', (snap) => {
+
+        res.render('polls', {
+          layout: 'main',
+          pollTitle: poll,
+          polls: snap.val()
+        });
+      })
+    })
+
     router.get(`/${poll}/active`, (req, res) => {
       const pollRef = firebase.database().ref('polls/').child(`${poll}`)
       console.log(poll);
       pollRef.on('value', (snap) => {
-        console.log('get', snap.val());
+        console.log('get', Object.values(snap.val()));
 
         res.render('playPoll', {
           layout: 'main',
@@ -100,6 +142,35 @@ globalRef.on('value', function (snap) {
 
     })
 
+    router.post(`/${poll}/:key/submit`, (req, res) => {
+
+      const pollRef = firebase.database().ref('polls/').child(`${poll}`)
+      const pollChildRef = pollRef.child(`${req.params.key}`)
+
+      // Get chosen answer
+      let answer = parseInt(Object.keys(req.body)[0])
+
+      // Get chosen answer when not multiple choice
+      if(answer !== 0) {
+        answer = Object.values(req.body)[0]
+        pollChildRef.child(`/pollResults/`).push(answer)
+      } else {
+        pollChildRef.child(`/pollResults/${answer}`).transaction(value => value + 1)
+      }
+
+
+
+      pollRef.on('value', (snap) => {
+        console.log('get', Object.values(snap.val()));
+
+        res.render('playPoll', {
+          layout: 'main',
+          pollTitle: poll,
+          polls: snap.val()
+        });
+      })
+
+    })
   })
 })
 

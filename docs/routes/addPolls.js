@@ -7,7 +7,7 @@ router.post('/', (req, res) => {
   pollRef.push({
     pollAnswer: {
       type: 'multiple',
-      values: ['A: Like this!', 'B: No! Like That']
+      values: ['Like this!', 'No! Like That']
     },
     pollQuestion: 'How can you make a poll?',
     pollStatus: false
