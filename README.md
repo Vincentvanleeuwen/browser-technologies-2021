@@ -1,9 +1,13 @@
 # Pollerrr
 
 For the class browser technologies I will be creating a progressively enhanced polling web app. 
+The core functionalities of this project are creating a poll list with polls, and being able to answer the polls.
+
+## Wireflow
+![alt text](https://github.com/Vincentvanleeuwen/browser-technologies-2021/blob/master/img/schets2.jpg "Sketch Poller")
+![alt text](https://github.com/Vincentvanleeuwen/browser-technologies-2021/blob/master/img/schets3.jpg "Sketch Enhancement")
 
 ## Installation Guide
-
 
 ```jsx
 // Clone the repository
@@ -26,15 +30,21 @@ In this project I will be making use of the following important packages.
 - Firebase
 - Express Handlebars
 
+I will test on the following browsers:
+- Chrome
+- Firefox
+- Opera
+
 ## Checklist 
 
 - [x] Create a poll list
 - [x] Dynamic poll routes
-- [ ] 404 page
-- [ ] Create a poll
-- [ ] Answer polls
+- [x] 404 page
+- [x] Create a poll
+- [x] Answer polls
 - [ ] Reviewing answers
-- [ ] Progressive enhanced drag & drop 
+- [ ] Progressive enhanced drag & drop
+- [ ] Enhanced interface with clientside javascript  
 <!-- Add a link to your live demo in Github Pages 🌐-->
 
 <!-- ☝️ replace this description with a description of your own work -->
