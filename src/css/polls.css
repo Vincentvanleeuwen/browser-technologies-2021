@@ -35,39 +35,53 @@
 }
 .tool a {
   width: 100%;
-  /* font-size: .8em; */
   display: flex;
+  padding: .5em 0;
   align-items: center;
   justify-content: space-around;
   text-decoration: none;
   color: var(--light-color);
-  font-family: 'Raleway', sans-serif;
+  font-family: Raleway,sans-serif;
   font-weight: 500;
+  font-size: clamp(.5rem,2vw,1.5rem);
 }
 .tool .tool-activated-text {
   color: var(--dark-color);
 }
 nav {
-  position: fixed;
-  bottom: 5vw;
-  right: 5vw;
+  min-width: 14em;
+  width: 50vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 .add-poll {
-  width: 5em;
-  height: 5em;
+  display: flex;
+  padding: .5em 1em;
+  width: max-content;
+  height: 2em;
   position: relative;
-  border-radius: 50%;
+  border-radius: 0;
   background-color: var(--result-color-1)
 }
 .add-poll a {
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  gap: 1em;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  color: var(--dark-color)
 }
-.add-poll a svg {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%)
-}
+/*.add-poll a svg {*/
+/*  position: absolute;*/
+/*  left: 50%;*/
+/*  top: 50%;*/
+/*  transform: translate(-50%,-50%)*/
+/*}*/
 header {
   display: flex;
   justify-content: center;
@@ -78,33 +92,63 @@ header {
 }
 header h3 {
   max-width: 22rem;
+  padding: 0 1em;
   color: var(--light-color);
   font-family: 'Raleway', sans-serif;
   font-weight: 500;
+  font-size: clamp(1rem, 2vw, 2rem);
 }
 /*Add polls*/
 .multiple {
   display: flex;
   flex-direction: column;
 }
-
-.play-form label:first-of-type input[type="submit"] {
+.answers {
+  width: 100%;
+}
+.answers section {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: baseline;
+  padding: 0 1em;
+}
+.answer0, .answer1, .answer2, .answer3, .answer4 {
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg);
+  margin-right: 1em;
+}
+.answer0, .play-form label:first-of-type input[type="submit"] {
   background-color: var(--primary-color);
 }
-.play-form label:nth-child(3) input[type="submit"] {
-  background-color: crimson;
+.answer1, .play-form label:nth-child(3) input[type="submit"] {
+  background-color: var(--cta-color);
 }
-.play-form label:nth-child(4) input[type="submit"] {
-  background-color: cornflowerblue;
+.answer2, .play-form label:nth-child(4) input[type="submit"] {
+  background-color: var(--result-color-1);
 }
-.play-form label:nth-child(5) input[type="submit"] {
-  background-color: mediumpurple;
+.answer3, .play-form label:nth-child(5) input[type="submit"] {
+  background-color: var(--result-color-2);
 }
-.play-form label input[type="submit"] {
-  width: 15em;
-  margin-top: .5em;
+.answer4, .play-form label:last-of-type input[type="submit"] {
+  background-color: var(--result-color-3);
 }
-.poll {
+.open-question-text {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--result-color-2);
+  margin-right: 1em;
+}
+.open-question-number {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--result-color-1);
+  margin-right: 1em;
+}
+.play-form, .poll {
   width: 50vw;
   display: flex;
   flex-direction: column;
@@ -117,10 +161,31 @@ header h3 {
     rgba(224, 192, 220, .1) -20px 20px,
     rgba(224, 192, 220, .05) -25px 25px;
 }
+.play-form label {
+  width: 100%;
+}
+.play-form label input[type="submit"] {
+  margin: 0;
+  width: 100%;
+  height:100%;
+  border-radius: 0;
+  padding: 1.5em 1em;
+  color: var(--dark-color);
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+}
 
-.closed p:before{
-  content: "";
-  width:50px;
-  height: 50px;
-  background-color: var(--primary-color);
+.play-form label[for="open-answer"] input {
+  margin: 0.5em 1em;
+  width: 90%;
+  padding: 0;
+}
+
+.play-form label[for="open-answer"] + input[type="submit"] {
+  width: 100%;
+  text-align: center;
+  padding: 0.5em 1em;
+  color: var(--dark-color);
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
 }

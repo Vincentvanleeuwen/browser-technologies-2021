@@ -8,7 +8,9 @@
 
       <form action="/polls/{{ ../pollTitle }}/{{@key}}/submit" method="post" class="play-form">
 
-        <p> {{pollQuestion}}</p>
+        <header>
+          <h3> {{pollQuestion}}</h3>
+        </header>
 
         {{#switch pollAnswer.type}}
 

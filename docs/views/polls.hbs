@@ -1,6 +1,19 @@
 <section class="container">
-  <h2>{{ pollTitle }}</h2>
-  {{>nav}}
+
+
+  <nav>
+    <h2>{{ pollTitle }}</h2>
+    <section class="add-poll">
+      <a href="/polls/{{pollTitle}}/add-poll">
+
+        Add a poll!
+        <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 0 24 24" width="36">
+          <path d="M0 0h24v24H0z" fill="none"/>
+          <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" style="&#10;    fill: white;&#10;"/>
+        </svg>
+      </a>
+    </section>
+  </nav>
   {{#each polls}}
 
     <section class="poll">
@@ -9,10 +22,31 @@
       </header>
 
 
-      <section class="closed">
-        {{#each pollAnswer.values}}
-          <p>{{this}}</p>
-        {{/each}}
+      <section class="answers">
+          {{#switch pollAnswer.type}}
+            {{#case 'multiple'}}
+              {{#each ../pollAnswer.values}}
+                <section>
+                  <div class="answer{{@key}}"></div>
+                  <p>{{this}}</p>
+                </section>
+              {{/each}}
+            {{/case}}
+            {{#case 'open-text'}}
+              <section>
+                <div class="open-question-text"></div>
+                <p> Open question. (text)</p>
+              </section>
+            {{/case}}
+            {{#case 'open-number'}}
+              <section>
+                <div class="open-question-number"></div>
+                <p> Open question. (number)</p>
+              </section>
+            {{/case}}
+          {{/switch}}
+
+
       </section>
 
       <section class="tools">

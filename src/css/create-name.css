@@ -7,13 +7,9 @@
 }
 
 .container form input[type="submit"] {
-  background-color: var(--cta-color);
-  color: var(--light-color);
-
+  /*background-color: var(--cta-color);*/
+  color: var(--dark-color);
   padding: .5em 1em;
-  margin-top: 2em;
-
   border: none;
-  border-radius: 1em;
 }
 

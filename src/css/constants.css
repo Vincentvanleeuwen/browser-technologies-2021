@@ -14,6 +14,7 @@ body {
   justify-content: center;
   align-items: center;
   padding-bottom: 5em;
+  box-sizing: border-box;
 }
 
 .container  {
