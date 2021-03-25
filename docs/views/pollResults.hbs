@@ -1,0 +1,61 @@
+<section class="container">
+  <h2>{{ pollTitle }}</h2>
+  <h3> Results</h3>
+
+  {{#each polls}}
+
+    {{#if pollStatus}}
+        <section class="poll-result">
+          <header>
+            <h3> {{pollQuestion}}</h3>
+          </header>
+
+
+          {{#switch pollAnswer.type}}
+
+            {{#case 'multiple'}}
+              <section class="poll-answers-multiple">
+                {{#each ../pollAnswer.values}}
+                    <section class="poll-answer-multiple">
+                      {{#with ../../pollResults }}
+                        <p class="count-poll"> {{getResultsForAnswer @key this}} </p>
+                      {{/with}}
+                      <p> {{this}} </p>
+                      {{#with ../../pollResults }}
+                        <meter value="{{getResultsForAnswer @key this}}"
+                               min="0"
+                               max="{{getAmountPlayers this}}">
+                        </meter>
+                      {{/with}}
+                    </section>
+                {{/each}}
+              </section>
+
+            {{/case}}
+
+            {{#case 'open-text'}}
+              <section class="poll-answer-open">
+                {{#each ../pollResults}}
+                  <section class="text-blob">
+                    {{ this }}
+                  </section>
+
+                {{/each}}
+              </section>
+            {{/case}}
+
+            {{#case 'open-number'}}
+              <section class="poll-answer-open">
+                {{#each ../pollResults}}
+                  {{ this }}
+                {{/each}}
+              </section>
+            {{/case}}
+
+          {{/switch}}
+        </section>
+    {{/if}}
+
+  {{/each}}
+
+</section>

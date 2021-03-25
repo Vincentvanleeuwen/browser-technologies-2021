@@ -3,9 +3,9 @@ const concat = require('gulp-concat')
 const uglify = require('gulp-uglify-es').default
 
 return gulp.src([
-  "./src/js/*.js",
-
+  "./src/js/*.js"
 ])
 .pipe(concat('bundle.min.js'))
-.pipe(uglify({ mangle: false }))
+// Minify to the max
+.pipe(uglify({ mangle: { toplevel: true } }))
 .pipe(gulp.dest('./public/js'))

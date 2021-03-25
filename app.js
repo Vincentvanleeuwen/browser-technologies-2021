@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 require('firebase/database');
 const express = require('express'); // Express web server framework
 const handlebars = require('express-handlebars');
-
+const session = require('express-session')
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
@@ -13,25 +13,21 @@ if(process.env.NODE_ENV !== 'production'){
 
 const port = process.env.PORT || 3000;
 const app = express();
-
+const serviceAccount = require("./serviceAccountKey.json");
 const firebaseConfig = {
-  apiKey: "AIzaSyCYh5eAY97Umv7z1SsqOaD4Kax8JVkHz9c",
-  authDomain: "poller-3def1.firebaseapp.com",
-  databaseURL: "https://poller-3def1-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "poller-3def1",
-  storageBucket: "poller-3def1.appspot.com",
-  messagingSenderId: "361512679720",
-  appId: "1:361512679720:web:0cab0e67a7454442d6f81d",
-  measurementId: "G-7NHRRMFQS1"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGE_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT
 };
 
 admin.initializeApp({
-  databaseURL: "https://poller-3def1-default-rtdb.europe-west1.firebasedatabase.app",
-  credential: admin.credential.cert({
-    projectId: "poller-3def1",
-    clientEmail: "firebase-adminsdk-vglx9@poller-3def1.iam.gserviceaccount.com",
-    privateKey: '-----BEGIN PRIVATE KEY----\n-y8y1syTevRX_GuNiHzwOFMxyRKmzUORwUeP-KawrzsA\n-----END PRIVATE KEY-----\n'
-  })
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  credential: admin.credential.cert(serviceAccount)
 });
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -41,9 +37,6 @@ const home = require('./docs/routes/home');
 const addPolls = require('./docs/routes/addPolls');
 const polls = require('./docs/routes/polls');
 const error = require('./docs/routes/error');
-// const callback = require('./docs/routes/callback');
-// const create = require('./docs/routes/create');
-
 
 // Assign handlebars as the view engine
 app.set('view engine', 'hbs');
@@ -59,12 +52,17 @@ app.use(express.static(__dirname + '/public'))
   .use(cookieParser())
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
+  .use(session({
+    secret: 'pollerrr-secret',
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: 'auto' }
+  }))
   .use('/', home)
   .use('/create-poll', addPolls)
   .use('/polls', polls)
   // Always keep last
   .use('*', error)
-
 
 console.log(`Listening on ${port}`);
 app.listen(port);

@@ -1,14 +1,13 @@
 <section class="container">
   <h2>{{ pollTitle }}</h2>
-
+  {{>nav}}
   {{#each polls}}
 
     <section class="poll">
-      <section class="open">
-
+      <header>
         <h3>{{pollQuestion}}</h3>
+      </header>
 
-      </section>
 
       <section class="closed">
         {{#each pollAnswer.values}}
@@ -17,34 +16,37 @@
       </section>
 
       <section class="tools">
-        <section class="tool">
 
-          {{#if pollStatus}}
 
-            <a class="status" href="/polls/{{../pollTitle }}/activate-poll/{{@key}}">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none"/>
-                <path d="M12 2.02c-5.51 0-9.98 4.47-9.98 9.98s4.47 9.98 9.98 9.98 9.98-4.47 9.98-9.98S17.51 2.02 12 2.02zM11.48 20v-6.26H8L13 4v6.26h3.35L11.48 20z" style="fill: #eaad35c9;"/>
-              </svg>
-              Deactivate Poll
-            </a>
-          {{else}}
+        {{#if pollStatus}}
+        <section class="tool tool-activated">
+          <a class="status tool-activated-text" href="/polls/{{../pollTitle }}/activate-poll/{{@key}}">
+            <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 0 24 24" width="36">
+              <path d="M0 0h24v24H0z" fill="none"/>
+              <path d="M12 2.02c-5.51 0-9.98 4.47-9.98 9.98s4.47 9.98 9.98 9.98 9.98-4.47 9.98-9.98S17.51 2.02 12 2.02zM11.48 20v-6.26H8L13 4v6.26h3.35L11.48 20z" style="fill: var(--dark-color);"/>
+            </svg>
+            Deactivate Poll
+          </a>
+        </section>
+        {{else}}
+          <section class="tool">
             <a href="/polls/{{../pollTitle }}/activate-poll/{{@key}}" class="status">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+              <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 0 24 24" width="36">
                 <path d="M0 0h24v24H0z" fill="none"/>
-                <path d="M12 2.02c-5.51 0-9.98 4.47-9.98 9.98s4.47 9.98 9.98 9.98 9.98-4.47 9.98-9.98S17.51 2.02 12 2.02zM11.48 20v-6.26H8L13 4v6.26h3.35L11.48 20z"/>
+                <path d="M12 2.02c-5.51 0-9.98 4.47-9.98 9.98s4.47 9.98 9.98 9.98 9.98-4.47 9.98-9.98S17.51 2.02 12 2.02zM11.48 20v-6.26H8L13 4v6.26h3.35L11.48 20z"style="fill: var(--result-color-3);"/>
               </svg>
               Activate Poll
             </a>
-          {{/if}}
-        </section>
+          </section>
+        {{/if}}
+
 
         <section class="tool">
           <a href="/polls/{{../pollTitle }}/delete-poll/{{@key}}">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+            <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 0 24 24" width="36">
               <path d="M0 0h24v24H0z" fill="none"/>
               <path d="M0 0h24v24H0V0z" fill="none"/>
-              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/>
+              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z" style="fill:var(--light-color)"/>
             </svg>
             Delete Poll
           </a>
@@ -54,6 +56,6 @@
 
   {{/each}}
 
-  {{>nav}}
+
 
 </section>

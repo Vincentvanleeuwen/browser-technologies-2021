@@ -12,7 +12,11 @@
     "prebuild:css": "rimraf \"public/css\"",
     "prebuild:js": "rimraf \"public/js\"",
     "build:css": "node ./build_scripts/build-css.js",
-    "build:js": "node ./build_scripts/build-js.js"
+    "build:js": "node ./build_scripts/build-js.js",
+    "watch:js": "nodemon --watch ./src/js -e js ./build_scripts/build-js.js",
+    "watch:css": "nodemon --watch ./src/css -e css ./build_scripts/build-css.js",
+    "watch:server": "nodemon --watch public --watch docs app.js",
+    "watch": "concurrently \"npm:watch:js\" \"npm:watch:css\" \"npm:watch:server\""
   },
   "repository": {
     "type": "git",
@@ -35,10 +39,12 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.1",
+    "express-session": "^1.17.1",
     "firebase": "^8.3.0",
     "firebase-admin": "^9.5.0"
   },
   "devDependencies": {
+    "concurrently": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-clean-css": "^4.3.0",

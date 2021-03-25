@@ -17,7 +17,6 @@ if(a) {
   })
 }
 
-
 // Add multiple answers to your question
 if(addAnswerEl) {
   addAnswerEl.addEventListener('click', (e) => {

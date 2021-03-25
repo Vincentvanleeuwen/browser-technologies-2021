@@ -1,8 +1,12 @@
 :root {
-  --primary-color: #e5acacdb;
-  --cta-color: #FE9D65;
+  --primary-color: #ECC3C3;
+  --cta-color: #D4526C;
   --light-color: #FFFFFF;
-  --dark-color: #342F2F;
+  --dark-color: #2A2A2A;
+
+  --result-color-1: #80EEBB;
+  --result-color-2: #9370DB;
+  --result-color-3: #FEEA65;
 }
 body {
   display: flex;
@@ -17,6 +21,5 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 5em;
   width: 100%;
 }

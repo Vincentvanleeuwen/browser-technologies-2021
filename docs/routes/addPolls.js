@@ -4,6 +4,7 @@ require('firebase/database');
 
 router.post('/', (req, res) => {
   const pollRef = firebase.database().ref('polls/').child(`${req.body.name}`)
+
   pollRef.push({
     pollAnswer: {
       type: 'multiple',

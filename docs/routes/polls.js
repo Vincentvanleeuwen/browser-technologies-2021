@@ -61,7 +61,7 @@ globalRef.on('value', function (snap) {
         valuesAmount = values.filter(value => value !== null).length
 
         for(i = 0; i < valuesAmount; i++) {
-          valuesArray.push(i)
+          valuesArray.push(0)
         }
       }
 
@@ -106,6 +106,7 @@ globalRef.on('value', function (snap) {
 
         if(snap.val().pollStatus === true) {
 
+          // Create a Push Message
           let message = {
             notification: {
               title: poll,
@@ -151,11 +152,38 @@ globalRef.on('value', function (snap) {
 
     router.get(`/${poll}/active`, (req, res) => {
       const pollRef = firebase.database().ref('polls/').child(`${poll}`)
+      console.log('active-completed', req.session.completed)
+      if(!req.session.completed) {
+        req.session.completed = []
+      }
+
+      pollRef.on('value', (snap) => {
+
+        const newQuestions = {}
+
+        snap.forEach(question => {
+          const questionId = question.key
+
+          if(!req.session.completed.includes(questionId)){
+            newQuestions[question.key] = question.val()
+          }
+        });
+
+        res.render('playPoll', {
+          layout: 'main',
+          pollTitle: poll,
+          polls: snap.val()
+        });
+      })
+    })
+
+    router.get(`/${poll}/results`, (req, res) => {
+      const pollRef = firebase.database().ref('polls/').child(`${poll}`)
 
       pollRef.on('value', (snap) => {
         console.log('get', Object.values(snap.val()));
 
-        res.render('playPoll', {
+        res.render('pollResults', {
           layout: 'main',
           pollTitle: poll,
           polls: snap.val()
@@ -173,19 +201,52 @@ globalRef.on('value', function (snap) {
       // Get chosen answer when not multiple choice
       if(answer !== 0) {
         answer = Object.values(req.body)[0]
+        // Push the answer
         pollChildRef.child(`/pollResults/`).push(answer)
       } else {
+        // Increment count
         pollChildRef.child(`/pollResults/${answer}`).transaction(value => value + 1)
       }
 
-      pollRef.on('value', (snap) => {
-        console.log('get', Object.values(snap.val()));
+      // Save completed questions
+      if(!req.session.completed) {
+        req.session.completed = []
+      }
+      req.session.completed.push(req.params.key)
+      req.session.save();
 
-        res.render('playPoll', {
-          layout: 'main',
-          pollTitle: poll,
-          polls: snap.val()
-        });
+
+      console.log('reqcompleted', req.session.completed)
+      pollRef.on('value', (snap) => {
+
+        const newQuestions = {}
+
+        const questionPromise = async () => {
+          await snap.forEach(question => {
+            const questionId = question.key
+
+            if(!req.session.completed.includes(questionId) && question.val().pollStatus){
+              newQuestions[question.key] = question.val()
+            }
+            console.log('questionresult', newQuestions);
+          })
+          return newQuestions
+
+        }
+
+        questionPromise().then((obj) => {
+          console.log('object=', obj)
+          if(Object.keys(obj).length === 0) {
+            res.redirect(`/polls/${poll}/results`)
+          } else {
+            res.render('playPoll', {
+              layout: 'main',
+              pollTitle: poll,
+              polls: newQuestions
+            });
+          }
+        }).catch(err => console.warn('Error Removing Questions', err))
+
       })
     })
   })
