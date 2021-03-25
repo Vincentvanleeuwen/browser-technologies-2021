@@ -1,4 +1,5 @@
 const firebase = require('firebase/app');
+const admin = require('firebase-admin');
 require('firebase/database');
 const express = require('express'); // Express web server framework
 const handlebars = require('express-handlebars');
@@ -24,7 +25,14 @@ const firebaseConfig = {
   measurementId: "G-7NHRRMFQS1"
 };
 
-
+admin.initializeApp({
+  databaseURL: "https://poller-3def1-default-rtdb.europe-west1.firebasedatabase.app",
+  credential: admin.credential.cert({
+    projectId: "poller-3def1",
+    clientEmail: "firebase-adminsdk-vglx9@poller-3def1.iam.gserviceaccount.com",
+    privateKey: '-----BEGIN PRIVATE KEY----\n-y8y1syTevRX_GuNiHzwOFMxyRKmzUORwUeP-KawrzsA\n-----END PRIVATE KEY-----\n'
+  })
+});
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 

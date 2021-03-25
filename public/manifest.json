@@ -1,0 +1,13 @@
+{
+  "short_name": "Pollerrr",
+  "name": "Pollerrr, create anonymous polls",
+
+  "start_url": "/",
+  "background_color": "#FFF",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#342F2F",
+
+  "description": "Create a poll list for you and your friends",
+  "gcm_sender_id": "361512679720"
+}

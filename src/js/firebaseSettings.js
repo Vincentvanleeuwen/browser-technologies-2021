@@ -1,6 +1,7 @@
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyCYh5eAY97Umv7z1SsqOaD4Kax8JVkHz9c",
   authDomain: "poller-3def1.firebaseapp.com",
   databaseURL: "https://poller-3def1-default-rtdb.europe-west1.firebasedatabase.app",

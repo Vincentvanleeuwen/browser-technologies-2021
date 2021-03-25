@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const firebase = require('firebase/app');
 require('firebase/database');
+const admin = require('firebase-admin');
 
 // Prevent items from duplicating
 let count = 0;
@@ -89,21 +90,43 @@ globalRef.on('value', function (snap) {
           polls: snap.val()
         });
       })
-
     })
+
     router.get(`/${poll}/activate-poll/:key`, (req, res) => {
       const pollRef = firebase.database().ref('polls/').child(`${poll}`)
       const pollChildRef = pollRef.child(`${req.params.key}`)
       let pollStatus
-
       pollChildRef.on('value', (snap) => {
         pollStatus = snap.val().pollStatus
       })
       pollChildRef.update({
         'pollStatus': !pollStatus
       })
-      pollRef.on('value', (snap) => {
+      pollChildRef.on('value', (snap) => {
 
+        if(snap.val().pollStatus === true) {
+
+          let message = {
+            notification: {
+              title: poll,
+              body: snap.val().pollQuestion
+            },
+            topic: poll
+          };
+
+          // Send a message to devices subscribed to the provided topic.
+          admin.messaging().send(message)
+            .then((response) => {
+              // Response is a message ID string.
+              console.log('Successfully sent message:', response);
+            })
+            .catch((error) => {
+              console.log('Error sending message:', error);
+            });
+        }
+      })
+
+      pollRef.on('value', (snap) => {
         res.render('polls', {
           layout: 'main',
           pollTitle: poll,
@@ -111,11 +134,10 @@ globalRef.on('value', function (snap) {
         });
       })
     })
+
     router.get(`/${poll}/delete-poll/:key`, (req, res) => {
-      console.log()
       const pollRef = firebase.database().ref('polls/').child(`${poll}`)
       pollRef.child(`${req.params.key}`).remove();
-
 
       pollRef.on('value', (snap) => {
 
@@ -129,7 +151,7 @@ globalRef.on('value', function (snap) {
 
     router.get(`/${poll}/active`, (req, res) => {
       const pollRef = firebase.database().ref('polls/').child(`${poll}`)
-      console.log(poll);
+
       pollRef.on('value', (snap) => {
         console.log('get', Object.values(snap.val()));
 
@@ -139,11 +161,9 @@ globalRef.on('value', function (snap) {
           polls: snap.val()
         });
       })
-
     })
 
     router.post(`/${poll}/:key/submit`, (req, res) => {
-
       const pollRef = firebase.database().ref('polls/').child(`${poll}`)
       const pollChildRef = pollRef.child(`${req.params.key}`)
 
@@ -158,8 +178,6 @@ globalRef.on('value', function (snap) {
         pollChildRef.child(`/pollResults/${answer}`).transaction(value => value + 1)
       }
 
-
-
       pollRef.on('value', (snap) => {
         console.log('get', Object.values(snap.val()));
 
@@ -169,7 +187,6 @@ globalRef.on('value', function (snap) {
           polls: snap.val()
         });
       })
-
     })
   })
 })
