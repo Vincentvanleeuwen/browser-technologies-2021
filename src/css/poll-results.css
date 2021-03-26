@@ -1,6 +1,6 @@
 .poll-result {
-
-  width: 50vw;
+  width: 90vw;
+  max-width: 40em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,7 +71,9 @@
 .poll-answer-multiple p, .poll-answer-multiple div {
   z-index: 10;
 }
+
 .poll-answer-multiple meter {
+
   position: absolute;
   padding: 0;
   margin: 0;
@@ -84,14 +86,16 @@
   z-index: 1;
 }
 
-.poll-answer-multiple meter::-webkit-meter-inner-element {
+.poll-answer-multiple meter::-webkit-meter-inner-element,
+.poll-answer-multiple meter::-moz-meter-inner-element{
 
   width: 100%;
   height:100%;
   padding:0;
   margin:0;
 }
-.poll-answer-multiple meter::-webkit-meter-bar {
+.poll-answer-multiple meter::-webkit-meter-bar,
+.poll-answer-multiple meter::-moz-meter-bar{
   background-color: var(--light-color);
   border-radius: 0;
   border: none;
@@ -100,14 +104,17 @@
   padding:0;
   margin:0;
 }
-.poll-answer-multiple meter::-webkit-meter-optimum-value {
+.poll-answer-multiple meter::-webkit-meter-optimum-value,
+.poll-answer-multiple meter::-moz-meter-optimum-value{
   height: 100%
 }
-.poll-answer-multiple meter::-webkit-meter-suboptimum-value {
+.poll-answer-multiple meter::-webkit-meter-suboptimum-value,
+.poll-answer-multiple meter::-moz-meter-suboptimum-value{
   background-color: var(--result-color-1);
   height: 100%
 }
-.poll-answer-multiple meter::-webkit-meter-even-less-good-value {
+.poll-answer-multiple meter::-webkit-meter-even-less-good-value,
+.poll-answer-multiple meter::-moz-meter-even-less-good-value{
   background-color: var(--result-color-2);
   height: 100%
 }

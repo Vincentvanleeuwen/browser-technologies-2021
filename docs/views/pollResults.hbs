@@ -21,11 +21,17 @@
                         <p class="count-poll"> {{getResultsForAnswer @key this}} </p>
                       {{/with}}
                       <p> {{this}} </p>
+
                       {{#with ../../pollResults }}
-                        <meter value="{{getResultsForAnswer @key this}}"
-                               min="0"
-                               max="{{getAmountPlayers this}}">
-                        </meter>
+                        <label for="meter">
+                          <meter value="{{getResultsForAnswer @key this}}"
+                                 min="0"
+                                 max="{{getAmountPlayers this}}"
+                                 name="meter">
+                            {{getResultsForAnswer @key this}} Votes
+                          </meter>
+                        </label>
+
                       {{/with}}
                     </section>
                 {{/each}}
