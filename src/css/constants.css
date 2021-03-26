@@ -8,13 +8,15 @@
   --result-color-2: #9370DB;
   --result-color-3: #FEEA65;
 }
+* {
+  box-sizing: border-box;
+}
 body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-bottom: 5em;
-  box-sizing: border-box;
 }
 
 .container  {

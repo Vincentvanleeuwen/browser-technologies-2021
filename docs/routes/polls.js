@@ -138,7 +138,9 @@ globalRef.on('value', function (snap) {
 
     router.get(`/${poll}/delete-poll/:key`, (req, res) => {
       const pollRef = firebase.database().ref('polls/').child(`${poll}`)
-      pollRef.child(`${req.params.key}`).remove();
+      pollRef.child(`${req.params.key}`).set(null)
+      .then(item => console.log('removed', item))
+      .catch(err => console.log('error deleting', err));
 
       pollRef.on('value', (snap) => {
 
@@ -197,9 +199,10 @@ globalRef.on('value', function (snap) {
 
       // Get chosen answer
       let answer = parseInt(Object.keys(req.body)[0])
-
+      console.log('answer=',answer)
+      console.log('answer=',req.body)
       // Get chosen answer when not multiple choice
-      if(answer !== 0) {
+      if(isNaN(answer)) {
         answer = Object.values(req.body)[0]
         // Push the answer
         pollChildRef.child(`/pollResults/`).push(answer)
@@ -244,6 +247,7 @@ globalRef.on('value', function (snap) {
               pollTitle: poll,
               polls: newQuestions
             });
+
           }
         }).catch(err => console.warn('Error Removing Questions', err))
 

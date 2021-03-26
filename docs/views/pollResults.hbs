@@ -47,7 +47,9 @@
             {{#case 'open-number'}}
               <section class="poll-answer-open">
                 {{#each ../pollResults}}
-                  {{ this }}
+                  <section class="text-blob">
+                    {{ this }}
+                  </section>
                 {{/each}}
               </section>
             {{/case}}

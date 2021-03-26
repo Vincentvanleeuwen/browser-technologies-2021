@@ -9,7 +9,7 @@ if (!("Notification" in window)) {
 else if (Notification.permission === "granted") {
   // If it's okay let's create a notification
   console.log('Permission granted')
-  var notification = new Notification("Hi there!");
+  const notification = new Notification("Hi there! You will be kept up to date with the most recent polls.");
 }
 
 // Otherwise, we need to ask the user for permission
@@ -17,7 +17,7 @@ else if (Notification.permission !== "denied") {
   Notification.requestPermission().then( permission => {
     // If the user accepts, let's create a notification
     if (permission === "granted") {
-      var notification = new Notification("Hi there!");
+      const notification = new Notification("Hi there! You will be kept up to date with the most recent polls.");
     }
   });
 }
@@ -49,7 +49,10 @@ messaging
   if(enableForegroundNotification) {
     const {title, ...options} = JSON.parse(payload.data.notification);
     navigator.serviceWorker.getRegistrations().then(registration => {
-      registration[0].showNotification(title, options);
+      registration[0]
+        .showNotification(title, options)
+        .then(r => console.log('notifcationShow', r))
+        .catch(e => console.log(e));
     });
   }
 });

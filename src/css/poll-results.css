@@ -132,3 +132,21 @@
   margin: 0.5em;
   border-radius: 1em;
 }
+
+label[for="open-answer"] {
+  margin-top: 1em;
+}
+label[for="open-answer-number"] {
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+}
+label[for="open-answer-number"] input {
+  width: 30%;
+}
+label[for="open-answer-number"] + input[type="submit"],
+label[for="open-answer"] + input[type="submit"] {
+  background-color: var(--result-color-1);
+  width: 100%;
+  margin-top: 1em;
+}

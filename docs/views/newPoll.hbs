@@ -2,12 +2,13 @@
   <h2>{{ pollTitle }}</h2>
 
 
-  <form action="/polls/{{pollTitle}}/add-poll" method="post">
+  <form action="/polls/{{pollTitle}}/add-poll" method="post" class="play-form">
     <label for="pollQuestion">
       Question
       <input type="text" name="pollQuestion">
     </label>
     <label for="answer">
+      Answer Type
       <select name="answer" id="answer">
         <option value="multiple" selected>Multiple Answers</option>
         <option value="open-text">Open Answer (text)</option>

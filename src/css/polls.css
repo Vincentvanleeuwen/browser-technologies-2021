@@ -82,16 +82,18 @@ nav {
 /*  top: 50%;*/
 /*  transform: translate(-50%,-50%)*/
 /*}*/
-header {
+header, label[for="pollQuestion"]{
   display: flex;
   justify-content: center;
   align-items: center;
   width:100%;
   background-color: var(--dark-color);
   color: var(--light-color);
+  padding: 1em;
 }
+
 header h3 {
-  max-width: 22rem;
+  /*max-width: 22rem;*/
   padding: 0 1em;
   color: var(--light-color);
   font-family: 'Raleway', sans-serif;
@@ -102,6 +104,19 @@ header h3 {
 .multiple {
   display: flex;
   flex-direction: column;
+  padding: 1em;
+  width: 100%;
+  border: none;
+}
+.add-answer {
+  background-color: var(--cta-color);
+  width:max-content;
+  border: none;
+  color: var(--light-color);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  padding: .5em 1em;
+  margin: .5em 1em;
 }
 .answers {
   width: 100%;
@@ -188,4 +203,39 @@ header h3 {
   color: var(--dark-color);
   font-family: "Raleway", sans-serif;
   font-weight: 500;
+}
+.play-form label[for="pollQuestion"] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  color: var(--light-color);
+}
+.play-form label[for="pollQuestion"] input {
+  width: 75%;
+  padding-left:1em;
+  border: none;
+  height: 2em;
+}
+.play-form label[for="answer"], .play-form label[for="pollStatus"] {
+  padding: 1em;
+}
+.play-form label[for="answer"] select {
+  margin-left: 1em;
+  padding: .5em;
+  border-radius: 0;
+}
+.play-form label[for="pollStatus"] {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  color: var(--dark-color);
+}
+.play-form label[for="pollStatus"] + input[type="submit"]{
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  color: var(--dark-color);
+  background-color: var(--result-color-1);
+  width: 100%;
+  padding: 1em;
 }
