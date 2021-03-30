@@ -10,7 +10,6 @@ const database = firebase.database()
 const pollRef = database.ref(`poll-list/${titleEl.innerHTML}/polls`)
 
 if('draggable' in document.createElement('span')) {
-  console.log("Drag support detected");
 
 // Enhance the buttons
   positionEl.forEach(item => {
@@ -76,7 +75,6 @@ if('draggable' in document.createElement('span')) {
     // If released on the same target
     if (data === event.currentTarget.id) return
     // console.log(data, dragIndex, event.currentTarget.id)
-    console.log(selectedPoll, event.currentTarget)
 
     // Set dragged element id to new id
     selectedPoll.id = clone.id
@@ -95,8 +93,6 @@ if('draggable' in document.createElement('span')) {
     pollRef.once('value').then(snap => {
       // Change previous item position.
       snap.forEach(shot => {
-        console.log('shot.val()', shot.val().position, newPosition, oldPosition)
-
         if (shot.val().position === newPosition) {
           pollRef.child(`${shot.key}`).child('position').set(oldPosition)
           .then((res) => console.log('Updated old position', res))

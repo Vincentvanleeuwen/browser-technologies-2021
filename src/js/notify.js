@@ -8,7 +8,6 @@ if (!("Notification" in window)) {
 // Let's check whether notification permissions have already been granted
 else if (Notification.permission === "granted") {
   // If it's okay let's create a notification
-  console.log('Permission granted')
   const notification = new Notification("Hi! You will be notified when a poll is activated");
 }
 

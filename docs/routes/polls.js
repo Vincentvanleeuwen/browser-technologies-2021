@@ -28,7 +28,6 @@ globalRef.on('value', function (snap) {
           newPolls.push({...shot.val(), id: shot.key})
         })
 
-        console.log(newPolls)
         res.render('polls', {
           layout: 'main',
           pollTitle: poll,
@@ -48,7 +47,6 @@ globalRef.on('value', function (snap) {
     })
 
     router.post(`/${makeUrlSafe(poll)}/add-poll`, (req, res) => {
-      console.log('Post body', req.body)
 
       let values;
       let valuesAmount;
@@ -76,14 +74,11 @@ globalRef.on('value', function (snap) {
       const pollRef = firebase.database().ref('poll-list').child(`${poll}/polls`)
 
       pollRef.once('value', (snap) => {
-        console.log('snappie');
         // Prevent items from duplicating
         let position;
         if(snap.val() === null) {
           position = 1;
         } else {
-          console.log(Object.keys(snap.val()))
-          console.log(Object.keys(snap.val()).length)
           position = Object.keys(snap.val()).length + 1
         }
         if(count === 0) {
@@ -202,7 +197,6 @@ globalRef.on('value', function (snap) {
     router.get(`/${makeUrlSafe(poll)}/active`, (req, res) => {
       const pollRef = firebase.database().ref('poll-list').child(`${poll}/polls`).orderByChild('position')
 
-      console.log('active-completed', req.session.completed)
       if(!req.session.completed) {
         req.session.completed = []
       }
@@ -229,11 +223,13 @@ globalRef.on('value', function (snap) {
       const pollRef = firebase.database().ref('poll-list').child(`${poll}/polls`).orderByChild('position')
 
       pollRef.once('value').then(snap => {
-        console.log('get', Object.values(snap.val()));
+
         const newPolls = []
+
         snap.forEach(shot => {
           newPolls.push({...shot.val(), id: shot.key})
         })
+
         res.render('pollResults', {
           layout: 'main',
           pollTitle: poll,
@@ -248,8 +244,7 @@ globalRef.on('value', function (snap) {
 
       // Get chosen answer
       let answer = parseInt(Object.keys(req.body)[0])
-      console.log('answer=',answer)
-      console.log('answer=',req.body)
+
       // Get chosen answer when not multiple choice
       if(isNaN(answer)) {
         answer = Object.values(req.body)[0]
@@ -270,9 +265,6 @@ globalRef.on('value', function (snap) {
       req.session.completed.push(req.params.key)
       req.session.save();
 
-
-      console.log('reqcompleted', req.session.completed)
-
       pollRef.once('value').then(snap => {
 
         // if question id is added to req.session.completed,
@@ -282,7 +274,6 @@ globalRef.on('value', function (snap) {
           await snap.forEach(question => {
             const questionId = question.key
 
-            console.log('questionID', questionId);
             if(!req.session.completed.includes(questionId) && question.val().pollStatus){
               newPolls.push({...question.val(), id: questionId})
             }
@@ -306,6 +297,5 @@ globalRef.on('value', function (snap) {
     })
   })
 })
-
 
 module.exports = router

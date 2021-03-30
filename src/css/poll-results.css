@@ -177,7 +177,7 @@ label[for="open-answer"] + input[type="submit"] {
 }
 
 @-moz-document url-prefix(),
-@media only screen and (max-device-width: 480px) {
+@media only screen and (max-width: 480px) {
   .poll-result {
     min-height: 10em;
   }

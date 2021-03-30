@@ -1,10 +1,8 @@
 const a = document.getElementById("answer")
-
 const multipleAnswersEl = document.querySelector('.multiple')
 const label = document.querySelector('label[for="answerB"]')
 
 let countClicks = 0
-
 
 // Functions for Add Poll
 if(window.location.pathname.includes('/add-poll')) {
@@ -15,7 +13,6 @@ if(window.location.pathname.includes('/add-poll')) {
 
     // Add multiple answers to your question
     addAnswerEl.addEventListener('click', (e) => {
-      console.log(e)
       e.preventDefault()
 
       let newAnswer;
