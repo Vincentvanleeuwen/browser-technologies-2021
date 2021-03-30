@@ -82,6 +82,14 @@ On the iPad I noticed straight away that the submit buttons had a weird gradient
 
 [Wouter](https://github.com/Mokerstier) 
 
+[Roeland](https://github.com/roelandvs)
+
 [Ben](https://github.com/benl95)
 
-[Roeland](https://github.com/roelandvs)
+[Firebase References](https://firebase.google.com/docs/reference)
+
+[Handlebars](https://handlebarsjs.com/guide/)
+
+[How to target ios devices](https://stackoverflow.com/questions/30102792/css-media-query-to-target-only-ios-devices)
+
+[Drag and Drop](https://medium.com/@jaouad_45834/drag-drop-with-vanilla-javascript-d20bda85afe6)
