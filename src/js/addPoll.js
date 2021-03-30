@@ -4,6 +4,7 @@ const label = document.querySelector('label[for="answerB"]')
 
 let countClicks = 0
 
+
 // Functions for Add Poll
 if(window.location.pathname.includes('/add-poll')) {
 
