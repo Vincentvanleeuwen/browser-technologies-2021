@@ -52,14 +52,16 @@ The first bug I saw on Firefox was that the fonts weren't adding up. They were a
 (left picture = bug) (right picture = fix)
 ![alt text](https://github.com/Vincentvanleeuwen/browser-technologies-2021/blob/master/img/firefox-font.png "Firefox Fonts")
 
-(left picture = bug) (right picture = fix)
+
 While reaching the result page I stumbled upon the meter element. This element is not liked by firefox as much as you can see. Luckily theres @-moz-document url-prefix(), this allows you to add styles to just the browser firefox.
 
+(left picture = bug) (right picture = fix)
 ![alt text](https://github.com/Vincentvanleeuwen/browser-technologies-2021/blob/master/img/firefox-meter.png "Firefox Meter")
 
 ### Safari on an Apple iPad
 On the iPad I noticed straight away that the submit buttons had a weird gradient. Luckily enough you can select all apple devices by using the code: @supports (-webkit-touch-callout: none) because only apple devices allow this piece of code.
 
+(left picture = bug) (right picture = fix)
 ![alt text](https://github.com/Vincentvanleeuwen/browser-technologies-2021/blob/master/img/safari-buttons.jpg "Safari Submit Buttons")
 
 
