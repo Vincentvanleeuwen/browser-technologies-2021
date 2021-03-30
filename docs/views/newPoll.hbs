@@ -2,7 +2,7 @@
   <h2>{{ pollTitle }}</h2>
 
 
-  <form action="/polls/{{pollTitle}}/add-poll" method="post" class="play-form">
+  <form action="/polls/{{makeUrlSafe pollTitle}}/add-poll" method="post" class="play-form">
     <label for="pollQuestion">
       Question
       <input type="text" name="pollQuestion">
@@ -22,7 +22,13 @@
       <label for="answerB">
         B <input type="text" name="answerB">
       </label>
-      <button class="add-answer">Add Answer</button>
+
+      <noscript>
+        <p> Leave these empty if open answer is selected.</p>
+      </noscript>
+      <noscript>
+        <p> Turn on Javascript to add more answers!</p>
+      </noscript>
     </fieldset>
 
     <label for="pollStatus">

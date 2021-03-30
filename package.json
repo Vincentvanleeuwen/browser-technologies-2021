@@ -16,7 +16,7 @@
     "watch:js": "nodemon --watch ./src/js -e js ./build_scripts/build-js.js",
     "watch:css": "nodemon --watch ./src/css -e css ./build_scripts/build-css.js",
     "watch:server": "nodemon --watch public --watch docs app.js",
-    "watch": "concurrently \"npm:watch:js\" \"npm:watch:css\" \"npm:watch:server\""
+    "watch": "echo y | concurrently \"npm:watch:js\" \"npm:watch:css\" \"npm:watch:server\""
   },
   "repository": {
     "type": "git",

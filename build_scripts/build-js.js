@@ -2,7 +2,7 @@ const gulp = require('gulp')
 const concat = require('gulp-concat')
 const uglify = require('gulp-uglify-es').default
 
-return gulp.src([
+gulp.src([
   "./src/js/*.js"
 ])
 .pipe(concat('bundle.min.js'))

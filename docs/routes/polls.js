@@ -2,11 +2,11 @@ const router = require('express').Router();
 const firebase = require('firebase/app');
 require('firebase/database');
 const admin = require('firebase-admin');
-
+const { makeUrlSafe } = require('../helpers/makeUrlSafe')
 // Prevent items from duplicating
 let count = 0;
 
-const globalRef = firebase.database().ref('polls/')
+const globalRef = firebase.database().ref('poll-list/')
 globalRef.on('value', function (snap) {
   let polls = snap.val()
   if(!polls) {
@@ -16,21 +16,29 @@ globalRef.on('value', function (snap) {
 
   pollKeys.forEach(poll => {
 
-    router.get(`/${poll}`, (req, res) => {
-      const pollRef = firebase.database().ref('polls/').child(`${poll}`)
+    router.get(`/${makeUrlSafe(poll)}`, (req, res) => {
 
-      pollRef.on('value', (snap) => {
-        // console.log('get', snap.val());
+      const pollRef = firebase.database().ref('poll-list').child(`${poll}/polls`).orderByChild('position')
+
+      pollRef.once('value').then(snap => {
+
+        const newPolls = []
+
+        snap.forEach(shot => {
+          newPolls.push({...shot.val(), id: shot.key})
+        })
+
+        console.log(newPolls)
         res.render('polls', {
           layout: 'main',
           pollTitle: poll,
-          polls: snap.val()
+          polls: newPolls
         });
-      })
+      }).catch(err => console.log(err))
 
     })
 
-    router.get(`/${poll}/add-poll`, (req, res) => {
+    router.get(`/${makeUrlSafe(poll)}/add-poll`, (req, res) => {
       // Prevent items from duplicating
       count = 0;
       res.render('newPoll', {
@@ -39,7 +47,7 @@ globalRef.on('value', function (snap) {
       });
     })
 
-    router.post(`/${poll}/add-poll`, (req, res) => {
+    router.post(`/${makeUrlSafe(poll)}/add-poll`, (req, res) => {
       console.log('Post body', req.body)
 
       let values;
@@ -60,40 +68,46 @@ globalRef.on('value', function (snap) {
         ]
         valuesAmount = values.filter(value => value !== null).length
 
-        for(i = 0; i < valuesAmount; i++) {
+        for(let i = 0; i < valuesAmount; i++) {
           valuesArray.push(0)
         }
       }
 
-      const pollRef = firebase.database().ref('polls/').child(`${poll}`)
+      const pollRef = firebase.database().ref('poll-list').child(`${poll}/polls`)
 
-      // Prevent items from duplicating
-      if(count === 0) {
-        pollRef.push({
-          pollAnswer: {
-            type: req.body.answer,
-            values: values
-          },
-          pollQuestion: req.body.pollQuestion,
-          pollStatus: req.body.pollStatus === 'on',
-          pollResults: valuesArray
-        })
-      }
+      pollRef.once('value', (snap) => {
+        console.log('snappie');
+        // Prevent items from duplicating
+        let position;
+        if(snap.val() === null) {
+          position = 1;
+        } else {
+          console.log(Object.keys(snap.val()))
+          console.log(Object.keys(snap.val()).length)
+          position = Object.keys(snap.val()).length + 1
+        }
+        if(count === 0) {
+          pollRef.push({
+            pollAnswer: {
+              type: req.body.answer,
+              values: values
+            },
+            pollQuestion: req.body.pollQuestion,
+            pollStatus: req.body.pollStatus === 'on',
+            pollResults: valuesArray,
+            position: position
+          })
+        }
 
-      count = 1;
+        count = 1;
 
-      pollRef.on('value', (snap) => {
-        console.log('render polls', snap.val());
-        res.render('polls', {
-          layout: 'main',
-          pollTitle: poll,
-          polls: snap.val()
-        });
-      })
+      }).then(() => {
+        res.redirect(`/polls/${makeUrlSafe(poll)}`)
+      }).catch(err => console.log(err))
     })
 
-    router.get(`/${poll}/activate-poll/:key`, (req, res) => {
-      const pollRef = firebase.database().ref('polls/').child(`${poll}`)
+    router.get(`/${makeUrlSafe(poll)}/activate-poll/:key`, (req, res) => {
+      const pollRef = firebase.database().ref('poll-list/').child(`${poll}/polls`)
       const pollChildRef = pollRef.child(`${req.params.key}`)
       let pollStatus
       pollChildRef.on('value', (snap) => {
@@ -101,8 +115,9 @@ globalRef.on('value', function (snap) {
       })
       pollChildRef.update({
         'pollStatus': !pollStatus
-      })
-      pollChildRef.on('value', (snap) => {
+      }).then(() => console.log('Succesfully Updated')).catch(err => console.warn(err))
+
+      pollChildRef.once('value').then(snap => {
 
         if(snap.val().pollStatus === true) {
 
@@ -112,7 +127,7 @@ globalRef.on('value', function (snap) {
               title: poll,
               body: snap.val().pollQuestion
             },
-            topic: poll
+            topic: makeUrlSafe(poll)
           };
 
           // Send a message to devices subscribed to the provided topic.
@@ -125,76 +140,110 @@ globalRef.on('value', function (snap) {
               console.log('Error sending message:', error);
             });
         }
-      })
+      }).then(() => console.log('Sent message')).catch(err => console.warn(err))
 
-      pollRef.on('value', (snap) => {
-        res.render('polls', {
-          layout: 'main',
-          pollTitle: poll,
-          polls: snap.val()
-        });
-      })
+      res.redirect(`/polls/${makeUrlSafe(poll)}`)
+
     })
 
-    router.get(`/${poll}/delete-poll/:key`, (req, res) => {
-      const pollRef = firebase.database().ref('polls/').child(`${poll}`)
+    router.get(`/${makeUrlSafe(poll)}/delete-poll/:key`, (req, res) => {
+      const pollRef = firebase.database().ref('poll-list/').child(`${poll}/polls`)
       pollRef.child(`${req.params.key}`).set(null)
       .then(item => console.log('removed', item))
       .catch(err => console.log('error deleting', err));
 
-      pollRef.on('value', (snap) => {
-
-        res.render('polls', {
-          layout: 'main',
-          pollTitle: poll,
-          polls: snap.val()
-        });
-      })
+      res.redirect(`/polls/${makeUrlSafe(poll)}`)
     })
 
-    router.get(`/${poll}/active`, (req, res) => {
-      const pollRef = firebase.database().ref('polls/').child(`${poll}`)
+    router.get(`/${makeUrlSafe(poll)}/:key/pos-:direction`, (req, res) =>{
+      const pollRef = firebase.database().ref('poll-list').child(`${poll}/polls`)
+      const positionRef = pollRef.child(`${req.params.key}`).child('position')
+
+      pollRef.once('value').then(snap => {
+        let newPos
+        let transactionDirection
+        let transactionDirectionTarget
+
+        // Get the position that needs changing
+        if(req.params.direction === 'up') {
+          newPos = snap.val()[req.params.key].position - 1
+          transactionDirection = value => value + 1
+          transactionDirectionTarget = value => value - 1
+        } else if(req.params.direction === 'down') {
+          newPos = snap.val()[req.params.key].position + 1
+          transactionDirection = value => value - 1
+          transactionDirectionTarget = value => value + 1
+        } else {
+          res.redirect('/error')
+        }
+
+        // Change previous item position.
+        snap.forEach(shot => {
+          if(shot.val().position === newPos){
+            pollRef.child(`${shot.key}`).child('position').transaction(transactionDirection)
+              .then((data)=> console.log('Updated old position', data))
+              .catch(err => console.log(err));
+          }
+        })
+
+        // Change the position of chosen item
+        positionRef
+        .transaction(transactionDirectionTarget)
+          .then(()=> console.log('Updated position'))
+          .catch(err => console.log(err))
+
+      }).then(()=> {
+        res.redirect(`/polls/${makeUrlSafe(poll)}`)
+      }).catch(err => console.log(err))
+
+    })
+
+
+    router.get(`/${makeUrlSafe(poll)}/active`, (req, res) => {
+      const pollRef = firebase.database().ref('poll-list').child(`${poll}/polls`).orderByChild('position')
+
       console.log('active-completed', req.session.completed)
       if(!req.session.completed) {
         req.session.completed = []
       }
 
-      pollRef.on('value', (snap) => {
+      pollRef.once('value').then(snap => {
 
-        const newQuestions = {}
-
-        snap.forEach(question => {
-          const questionId = question.key
-
+        const newPolls = []
+        snap.forEach(shot => {
+          const questionId = shot.key
           if(!req.session.completed.includes(questionId)){
-            newQuestions[question.key] = question.val()
+            newPolls.push({...shot.val(), id: shot.key})
           }
-        });
+        })
 
         res.render('playPoll', {
           layout: 'main',
           pollTitle: poll,
-          polls: snap.val()
+          polls: newPolls
         });
       })
     })
 
-    router.get(`/${poll}/results`, (req, res) => {
-      const pollRef = firebase.database().ref('polls/').child(`${poll}`)
+    router.get(`/${makeUrlSafe(poll)}/results`, (req, res) => {
+      const pollRef = firebase.database().ref('poll-list').child(`${poll}/polls`).orderByChild('position')
 
-      pollRef.on('value', (snap) => {
+      pollRef.once('value').then(snap => {
         console.log('get', Object.values(snap.val()));
-
+        const newPolls = []
+        snap.forEach(shot => {
+          newPolls.push({...shot.val(), id: shot.key})
+        })
         res.render('pollResults', {
           layout: 'main',
           pollTitle: poll,
-          polls: snap.val()
+          polls: newPolls
         });
-      })
+      }).catch(err => console.log(err))
     })
 
-    router.post(`/${poll}/:key/submit`, (req, res) => {
-      const pollRef = firebase.database().ref('polls/').child(`${poll}`)
+    router.post(`/${makeUrlSafe(poll)}/:key/submit`, (req, res) => {
+      const pollRef = firebase.database().ref('poll-list').child(`${poll}/polls`)
       const pollChildRef = pollRef.child(`${req.params.key}`)
 
       // Get chosen answer
@@ -208,7 +257,10 @@ globalRef.on('value', function (snap) {
         pollChildRef.child(`/pollResults/`).push(answer)
       } else {
         // Increment count
-        pollChildRef.child(`/pollResults/${answer}`).transaction(value => value + 1)
+        pollChildRef.child(`/pollResults/${answer}`)
+        .transaction(value => value + 1)
+        .then(() => console.log('added result count'))
+        .catch(err => console.log('error adding result count', err))
       }
 
       // Save completed questions
@@ -220,37 +272,36 @@ globalRef.on('value', function (snap) {
 
 
       console.log('reqcompleted', req.session.completed)
-      pollRef.on('value', (snap) => {
 
-        const newQuestions = {}
+      pollRef.once('value').then(snap => {
 
+        // if question id is added to req.session.completed,
+        // create a new list of questions to show the user without the one they just answered.
         const questionPromise = async () => {
+          const newPolls = []
           await snap.forEach(question => {
             const questionId = question.key
 
+            console.log('questionID', questionId);
             if(!req.session.completed.includes(questionId) && question.val().pollStatus){
-              newQuestions[question.key] = question.val()
+              newPolls.push({...question.val(), id: questionId})
             }
-            console.log('questionresult', newQuestions);
-          })
-          return newQuestions
 
+          })
+          return newPolls
         }
 
         questionPromise().then((obj) => {
-          console.log('object=', obj)
-          if(Object.keys(obj).length === 0) {
-            res.redirect(`/polls/${poll}/results`)
-          } else {
+          // if(obj.length === 0) {
+          //   res.redirect(`/polls/${makeUrlSafe(poll)}/results`)
+          // } else {
             res.render('playPoll', {
               layout: 'main',
               pollTitle: poll,
-              polls: newQuestions
+              polls: obj
             });
-
-          }
+          // }
         }).catch(err => console.warn('Error Removing Questions', err))
-
       })
     })
   })

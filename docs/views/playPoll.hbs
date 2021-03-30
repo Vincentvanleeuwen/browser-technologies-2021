@@ -1,12 +1,11 @@
 <section class="container">
   <h2>{{ pollTitle }}</h2>
 
-
   {{#each polls}}
 
     {{#if pollStatus}}
 
-      <form action="/polls/{{ ../pollTitle }}/{{@key}}/submit" method="post" class="play-form">
+      <form action="/polls/{{ makeUrlSafe ../pollTitle }}/{{this.id}}/submit" method="post" class="play-form">
 
         <header>
           <h3> {{pollQuestion}}</h3>
@@ -26,19 +25,25 @@
             <label for="open-answer">
               <input type="text" name="open-answer"/>
             </label>
-            <input type="submit">
+            <input type="submit" value="Submit Answer">
           {{/case}}
 
           {{#case 'open-number'}}
             <label for="open-answer-number">
               <input type="number" name="open-answer-number"/>
             </label>
-            <input type="submit">
+            <input type="submit" value="Submit Answer">
           {{/case}}
 
         {{/switch}}
       </form>
     {{/if}}
+
+  {{else}}
+    <section class="empty-polls">
+      <p>You've answered all questions! Wait for more questions or look at the results by pressing the button below.</p>
+      <a href="/polls/{{makeUrlSafe pollTitle}}/results" class="result-btn"> To the results!</a>
+    </section>
 
   {{/each}}
 

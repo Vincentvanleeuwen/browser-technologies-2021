@@ -3,7 +3,7 @@ const concat = require('gulp-concat')
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCSS = require('gulp-clean-css');
 
-return gulp.src([
+gulp.src([
   "./src/css/*.css"
 ])
 .pipe(concat('index.css'))

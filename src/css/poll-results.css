@@ -12,7 +12,32 @@
     rgba(224, 192, 220, .1) -20px 20px,
     rgba(224, 192, 220, .05) -25px 25px;
 }
-
+.empty-polls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+.empty-polls p {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  max-width: 28em;
+}
+.result-btn {
+  display: flex;
+  text-decoration: none;
+  color: var(--dark-color);
+  padding: .5em 1em;
+  width: -moz-max-content;
+  width: max-content;
+  height: 2em;
+  position: relative;
+  border-radius: 0;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  background-color: var(--result-color-1);
+}
 .poll-answers-multiple {
   width: 100%;
   display: flex;
@@ -42,9 +67,7 @@
 .poll-answer-multiple:nth-child(5)  meter::-webkit-meter-optimum-value {
   background-color: var(--result-color-3)
 }
-{
 
-}
 .poll-answer-multiple {
   width: 100%;
   height: 8em;
@@ -86,17 +109,15 @@
   z-index: 1;
 }
 
-.poll-answer-multiple meter::-webkit-meter-inner-element,
-.poll-answer-multiple meter::-moz-meter-inner-element{
+.poll-answer-multiple meter::-webkit-meter-inner-element{
 
   width: 100%;
   height:100%;
   padding:0;
   margin:0;
 }
-.poll-answer-multiple meter::-webkit-meter-bar,
-.poll-answer-multiple meter::-moz-meter-bar{
-  background-color: var(--light-color);
+.poll-answer-multiple meter::-webkit-meter-bar {
+  background: var(--light-color);
   border-radius: 0;
   border: none;
   width: 100%;
@@ -104,18 +125,15 @@
   padding:0;
   margin:0;
 }
-.poll-answer-multiple meter::-webkit-meter-optimum-value,
-.poll-answer-multiple meter::-moz-meter-optimum-value{
+.poll-answer-multiple meter::-webkit-meter-optimum-value{
   height: 100%
 }
-.poll-answer-multiple meter::-webkit-meter-suboptimum-value,
-.poll-answer-multiple meter::-moz-meter-suboptimum-value{
-  background-color: var(--result-color-1);
+.poll-answer-multiple meter::-webkit-meter-suboptimum-value{
+  background: var(--result-color-1);
   height: 100%
 }
-.poll-answer-multiple meter::-webkit-meter-even-less-good-value,
-.poll-answer-multiple meter::-moz-meter-even-less-good-value{
-  background-color: var(--result-color-2);
+.poll-answer-multiple meter::-webkit-meter-even-less-good-value{
+  background: var(--result-color-2);
   height: 100%
 }
 
@@ -156,4 +174,31 @@ label[for="open-answer"] + input[type="submit"] {
   background-color: var(--result-color-1);
   width: 100%;
   margin-top: 1em;
+}
+
+@-moz-document url-prefix() {
+  .poll-result {
+    min-height: 10em;
+  }
+  .poll-answers-multiple {
+    flex-direction: column-reverse;
+  }
+  .poll-answer-multiple {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .poll-answer-multiple p {
+    color: var(--dark-color);
+    margin: 0;
+    line-height: 3em;
+    font-family: 'Raleway', sans-serif;
+  }
+  .poll-answer-multiple meter {
+    height: 3em;
+  }
 }

@@ -9,7 +9,7 @@ if (!("Notification" in window)) {
 else if (Notification.permission === "granted") {
   // If it's okay let's create a notification
   console.log('Permission granted')
-  const notification = new Notification("Hi there! You will be kept up to date with the most recent polls.");
+  const notification = new Notification("Hi! You will be notified when a poll is activated");
 }
 
 // Otherwise, we need to ask the user for permission
@@ -17,7 +17,7 @@ else if (Notification.permission !== "denied") {
   Notification.requestPermission().then( permission => {
     // If the user accepts, let's create a notification
     if (permission === "granted") {
-      const notification = new Notification("Hi there! You will be kept up to date with the most recent polls.");
+      const notification = new Notification("Hi! You will be notified when a poll is activated");
     }
   });
 }
@@ -29,7 +29,7 @@ messaging
 .then((currentToken) => {
   if (currentToken) {
     // Send the token to your server and update the UI if necessary
-    console.log(currentToken)
+    console.log('currentToken',currentToken)
     // ...
   } else {
     // Show permission request UI
