@@ -75,3 +75,21 @@ On the iPad I noticed straight away that the submit buttons had a weird gradient
 - [x] Answer polls
 - [x] Reviewing answers
 - [x] Progressive enhanced drag & drop
+
+## Sources
+
+[The one and only Jonah Gold](https://github.com/theonejonahgold)
+
+[Wouter](https://github.com/Mokerstier) 
+
+[Roeland](https://github.com/roelandvs)
+
+[Ben](https://github.com/benl95)
+
+[Firebase References](https://firebase.google.com/docs/reference)
+
+[Handlebars](https://handlebarsjs.com/guide/)
+
+[How to target ios devices](https://stackoverflow.com/questions/30102792/css-media-query-to-target-only-ios-devices)
+
+[Drag and Drop](https://medium.com/@jaouad_45834/drag-drop-with-vanilla-javascript-d20bda85afe6)
