@@ -176,8 +176,7 @@ label[for="open-answer"] + input[type="submit"] {
   margin-top: 1em;
 }
 
-@-moz-document url-prefix(),
-@media only screen and (max-width: 480px) {
+@-moz-document url-prefix(), @supports (-webkit-touch-callout: none) {
   .poll-result {
     min-height: 10em;
   }
@@ -201,5 +200,19 @@ label[for="open-answer"] + input[type="submit"] {
   }
   .poll-answer-multiple meter {
     height: 3em;
+  }
+}
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
+  input[type="submit"] {
+    -webkit-appearance: none;
+    border-radius: 0;
+
+  }
+  .tool .tool-position-down, .tool .tool-position-up {
+    height: 100%;
+    justify-content: space-between;
+    padding: 0 .5em;
+    color: var(--dark-color);
   }
 }
