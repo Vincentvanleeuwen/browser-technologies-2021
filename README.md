@@ -75,3 +75,13 @@ On the iPad I noticed straight away that the submit buttons had a weird gradient
 - [x] Answer polls
 - [x] Reviewing answers
 - [x] Progressive enhanced drag & drop
+
+## Bronnen
+
+[The one and only Jonah Gold](https://github.com/theonejonahgold)
+
+[Wouter](https://github.com/Mokerstier) 
+
+[Ben](https://github.com/benl95)
+
+[Roeland] (https://github.com/roelandvs)
