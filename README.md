@@ -76,7 +76,7 @@ On the iPad I noticed straight away that the submit buttons had a weird gradient
 - [x] Reviewing answers
 - [x] Progressive enhanced drag & drop
 
-## Bronnen
+## Sources
 
 [The one and only Jonah Gold](https://github.com/theonejonahgold)
 
@@ -84,4 +84,4 @@ On the iPad I noticed straight away that the submit buttons had a weird gradient
 
 [Ben](https://github.com/benl95)
 
-[Roeland] (https://github.com/roelandvs)
+[Roeland](https://github.com/roelandvs)
