@@ -64,7 +64,9 @@ On the iPad I noticed straight away that the submit buttons had a weird gradient
 (left picture = bug) (right picture = fix)
 ![alt text](https://github.com/Vincentvanleeuwen/browser-technologies-2021/blob/master/img/safari-buttons.jpg "Safari Submit Buttons")
 
+### Android Browser on a Samsung Galaxy S10
 
+The same problem occurred on the android browser as on Firefox. The result meter element went out of proportion and turned green. Luckily by adding code that only applies to small screens (apple or android) it'll put the meter element back in proportion.
 
 ## Checklist 
 
